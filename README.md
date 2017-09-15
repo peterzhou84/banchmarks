@@ -13,8 +13,8 @@ All request uses get method.
 
 1. Only respond 'hello world' for every request
 2. respond the content in a local file, read the file content to the memory and respond
-3. respond the content in the redis cache
-4. respond the content in the mysql database
+3. respond the content in the mysql database
+4. respond the content in the redis cache
 
 # basic design
 
