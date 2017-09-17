@@ -1,5 +1,5 @@
-# banchmarks
-Performance banchmarks for common languages, PHP, NODEJS, GO and so on
+# benchmarks
+Performance benchmarks for common languages, PHP, NODEJS, GO and so on
 
 # Concerns
 
@@ -40,5 +40,9 @@ JMeter on the local machine
 2. CPU 
 3. MEM
 
+# Environment Preparation
 
+## db
 
+    grant select on mysql.user to 'banchagent'@'%' identified by 'banchagent';
+    flush privileges;
