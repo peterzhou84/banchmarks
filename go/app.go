@@ -1,5 +1,8 @@
 package main
-
+/**
+ * mysql链接的时候一开始采用github.com/pubnative/mysqldriver-go库。
+ * 但是，执行的时候总是报库内部的越界错误，虽然查询结构正确，但是还是弃用了。
+ */
 import (
     "bufio"
 	"io"
@@ -7,11 +10,25 @@ import (
 	"os"
 	"bytes"
 	"strings"
+	"time"
 	"fmt"
-	"github.com/pubnative/mysqldriver-go"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
+	"github.com/garyburd/redigo/redis"
 )
 
-db := mysqldriver.NewDB("root@tcp(localhost:3306)/mysql", 2)
+
+var db *sqlx.DB;
+var redispool *redis.Pool
+
+func newRedisPool(addr string) *redis.Pool {
+	return &redis.Pool{
+	  MaxIdle: 3,
+	  IdleTimeout: 240 * time.Second,
+	  Dial: func () (redis.Conn, error) { return redis.Dial("tcp", addr) },
+	}
+  }
+  
 
 func strHandler(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "Hello World")
@@ -37,22 +54,45 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func dbHandler(w http.ResponseWriter, r *http.Request) {
-	// obtain connection from the pool
-	conn, err := db.GetConn()
+	rows, err := db.Query(`select count(*) from mysql.user`)
+	defer rows.Close();
+	rows.Next()
+	var count int
+	rows.Scan((&count))
+	// fmt.Println(count)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
-	rows, err := conn.Query(`select count(*) from mysql.user`)
-	if err != nil {
-		panic(err)
-	}
-	if err := db.PutConn(conn); err != nil {
-		panic(err)
-	}
+
 	io.WriteString(w, "Hello World")
 }
 func redisHandler(w http.ResponseWriter, r *http.Request) {
+	conn := redispool.Get()
+	defer conn.Close()
+	n, err := conn.Do("GET", "key1")
+	if err != nil {
+		fmt.Println(err)
+	}
+	if n != nil {;}
+	// fmt.Println(n)
 	io.WriteString(w, "Hello World")
+}
+
+
+func init(){
+	// 初始化数据库连接池
+	database, err := sqlx.Open("mysql", "benchagent:benchagent1Q#@tcp(192.168.8.3:3306)/mysql")
+	database.SetMaxIdleConns(2)
+	database.SetMaxOpenConns(2)
+	if err != nil {
+        fmt.Println("open mysql failed,", err)
+        return
+    }
+
+	db = database
+	
+	// 初始化redis连接池
+	redispool = newRedisPool("192.168.8.3:6379")
 }
 
 func main() {

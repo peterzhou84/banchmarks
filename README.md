@@ -44,5 +44,6 @@ JMeter on the local machine
 
 ## db
 
-    grant select on mysql.user to 'banchagent'@'%' identified by 'banchagent';
+    grant select on mysql.* to 'benchagent'@'%' identified by 'benchagent1Q#';
+    grant select on mysql.* to 'benchagent'@'localhost' identified by 'benchagent1Q#';
     flush privileges;
