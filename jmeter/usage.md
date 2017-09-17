@@ -16,7 +16,7 @@ The version of java required to be later than 1.8.0.
 
 ## run test
 
-    jmeter -n -t performance.jmx -Jhost=192.168.1.3 -Jport=3000 -Juses=100 -Jpath=1 -Jsecs=600 -Jlanguage=nodejs
+    jmeter -n -t performance.jmx -Jhost=192.168.1.3 -Jport=3000 -Jusers=100 -Jpath=1 -Jsecs=600 -Jlanguage=nodejs
 
 Here is an explaination of the parameters:
 

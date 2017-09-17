@@ -38,6 +38,7 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 	fh, ferr := os.Open("./testfile.txt")
     if ferr != nil {
 		fmt.Println(ferr)
+		w.WriteHeader(501)
         return 
     }
 	defer fh.Close()
@@ -62,6 +63,8 @@ func dbHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(count)
 	if err != nil {
 		fmt.Println(err)
+		w.WriteHeader(501)
+		return
 	}
 
 	io.WriteString(w, "Hello World")
@@ -72,6 +75,8 @@ func redisHandler(w http.ResponseWriter, r *http.Request) {
 	n, err := conn.Do("GET", "key1")
 	if err != nil {
 		fmt.Println(err)
+		w.WriteHeader(501)
+        return 
 	}
 	if n != nil {;}
 	// fmt.Println(n)
@@ -81,7 +86,7 @@ func redisHandler(w http.ResponseWriter, r *http.Request) {
 
 func init(){
 	// 初始化数据库连接池
-	database, err := sqlx.Open("mysql", "benchagent:benchagent1Q#@tcp(192.168.8.3:3306)/mysql")
+	database, err := sqlx.Open("mysql", "benchagent:benchagent1Q#@tcp(localhost:3306)/mysql")
 	database.SetMaxIdleConns(2)
 	database.SetMaxOpenConns(2)
 	if err != nil {
@@ -92,7 +97,7 @@ func init(){
 	db = database
 	
 	// 初始化redis连接池
-	redispool = newRedisPool("192.168.8.3:6379")
+	redispool = newRedisPool("localhost:6379")
 }
 
 func main() {
