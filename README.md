@@ -7,7 +7,7 @@ Performance benchmarks for common languages, PHP, NODEJS, GO and so on
 * We don't know weather the common operation effects the performance or not
 
 
-# main functional senarios
+# main functional scenarios
 
 All request uses get method.
 
@@ -26,7 +26,7 @@ All request uses get method.
 
 JMeter on the local machine
 
-## testing senarios
+## testing scenarios
 
 1. 100 concurrent users
 2. 200 concurrent users
