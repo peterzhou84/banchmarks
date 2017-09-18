@@ -10,13 +10,13 @@ var pool = mysql.createPool({
     database: "mysql",
     connectionLimit: 2
 });
-
-var redis = require("redis"),
-client = redis.createClient();
-
-client.on("error", function (err) {
-    console.log("Error " + err);
-});
+var redisPool = require('redis-connection-pool')('myRedisPool', {
+    host: 'localhost', // default 
+    port: 6379, //default 
+    max_clients: 2, // defalut 
+    perform_checks: false, // checks for needed push/pop functionality 
+    database: 0, // database number to use 
+  });
  
 app.get('/1', function (req, res) {
   res.send('Hello World')
@@ -37,7 +37,7 @@ app.get('/3', function (req, res) {
 })
 
 app.get('/4', function (req, res) {
-    client.get('key1',function(err, rst){
+    redisPool.get('key1',function(err, rst){
         if (err) {res.status(501).end();return;}
         res.send('Hello World')
     });

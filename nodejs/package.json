@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "^4.15.4",
     "mysql": "^2.14.1",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "redis-connection-pool": "^1.6.1"
   }
 }
