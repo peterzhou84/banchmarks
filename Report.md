@@ -25,3 +25,15 @@ The 1st column is the scenario name, combined with {language}_{concurrnetUsers}_
 2. The throughput is decreased when the concurrent user increased. Nodejs is decreasing slower than Go.
 3. When the concurrent users comes to 400, the max response time is more than 15s for Nodejs. 7s when it hits 500 concurrent users. This means that, Go is much more stable than Nodejs in the high concurrency situation.
 4. In scenario 3 (use mysql) and 4 (use redis), the system throuphput droped significantly. This maybe coused by the process capability of mysql and redis themselves. Go is still more stable and 
+
+Addtionally, compared with PHP benchmark data [PHP Benchmarks](https://github.com/kenjis/php-framework-benchmark), Nodejs is 2.55 times faster than PHP siler. If we compare Nodejs with Yii2, it's 12.89 times faster. PHP without template engine should be faster than this.
+
+# Analysis
+
+During the performance execution, the CPU cost is almost even, abount 50%. The difference is that system core's cpu usage is about 16%, but for Nodejs, it's 5%. I think Go is more optimized to use system core. On the other hand, Nodejs is mainly running on the user mode. 
+
+After looking at the performance data between different languages on different operations, Go and Nodejs have their own merits. For example, Nodejs is good at base64, json proccesing, while Go is good at matmul processing. Here is the original [performance data](https://github.com/kostya/benchmarks).
+
+Moreover, for engineering purpose, nodejs has complete solution of how a project could be hold in a private repository and it's very easy to manage the project dependencies. 
+
+On the other hand, Go, tobe continued
