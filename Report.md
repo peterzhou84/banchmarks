@@ -30,10 +30,17 @@ Addtionally, compared with PHP benchmark data [PHP Benchmarks](https://github.co
 
 # Analysis
 
-During the performance execution, the CPU cost is almost even, abount 50%. The difference is that system core's cpu usage is about 16%, but for Nodejs, it's 5%. I think Go is more optimized to use system core. On the other hand, Nodejs is mainly running on the user mode. 
+During the performance execution, the CPU cost is almost even, abount 50%. The difference is that, system core's cpu usage is about 16% for Go, but for Nodejs, it's 5%. I think Go is more optimized to use system core. On the other hand, Nodejs is mainly running on the user mode. 
 
 After looking at the performance data between different languages on different operations, Go and Nodejs have their own merits. For example, Nodejs is good at base64, json proccesing, while Go is good at matmul processing. Here is the original [performance data](https://github.com/kostya/benchmarks).
 
 Moreover, for engineering purpose, nodejs has complete solution of how a project could be hold in a private repository and it's very easy to manage the project dependencies. 
 
-On the other hand, Go, tobe continued
+On the other hand, Go project could be hold in a private git repository too, and the dependency management is easy.
+
+With the powerful authority management provided by gitlab, go projects could have a very flexible structure. You can define that some project could be used by specific user group, or by logined users, even anonymous users.
+
+On the other hand, Nodejs private project managed by sinopia doesn't support user group and the configuration is based on config file.
+
+So, I think Go is a better choice for big oganizations from engineering perspective.
+
